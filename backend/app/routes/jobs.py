@@ -5,9 +5,9 @@ from app.models.job import JobApplication
 from app.schemas.jobs import JobCreate, Job
 from datetime import datetime
 from fastapi import HTTPException
+from typing import List
 
 router = APIRouter()
-
 
 @router.post("/jobs/", response_model=Job)
 def create_job(job: JobCreate, db: Session = Depends(get_db)):
@@ -32,3 +32,6 @@ def create_job(job: JobCreate, db: Session = Depends(get_db)):
     db.refresh(db_job)
     return db_job
 
+@router.get("/jobs/", response_model=List[Job])
+def read_jobs(db: Session = Depends(get_db)):
+    return db.query(JobApplication).all()
