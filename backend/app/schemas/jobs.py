@@ -3,6 +3,7 @@ from datetime import date, datetime
 from typing import Optional
 from uuid import UUID
 
+#This schema is used for incoming requests
 class JobCreate(BaseModel):
     company_name: str
     application_id: Optional[str] = None
