@@ -35,3 +35,21 @@ def create_job(job: JobCreate, db: Session = Depends(get_db)):
 @router.get("/jobs/", response_model=List[Job])
 def read_jobs(db: Session = Depends(get_db)):
     return db.query(JobApplication).all()
+
+@router.get("/jobs/daily-counts/")
+def get_daily_application_counts(
+    days: int = 30,
+    db: Session = Depends(get_db)
+):
+    today = date.today()
+    start_date = today - timedelta(days=days)
+
+    results = (
+        db.query(JobApplication.applied_on, func.count(JobApplication.id))
+        .filter(JobApplication.applied_on >= start_date)
+        .group_by(JobApplication.applied_on)
+        .order_by(JobApplication.applied_on)
+        .all()
+    )
+
+    return [{"date": day.strftime("%Y-%m-%d"), "count": count} for day, count in results]
