@@ -4,3 +4,5 @@ __pycache__/
 *.pyc
 .env
 alembic/versions/*.pyc
+credentials.json
+token.json

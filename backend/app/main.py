@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import jobs, stats
+from app.routes import jobs, stats, sync
 
 app = FastAPI()
 
@@ -14,3 +14,4 @@ app.add_middleware(
 
 app.include_router(jobs.router)
 app.include_router(stats.router)
+app.include_router(sync.router)
